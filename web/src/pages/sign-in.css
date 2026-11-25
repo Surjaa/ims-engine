@@ -465,13 +465,23 @@ html[data-theme="dark"] .sg-demo {
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
   .sg-wrap {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     padding-top: 2rem;
+  }
+  .sg-wrap > * {
+    min-width: 0;
+  }
+  .sg-intro {
+    width: 100%;
   }
   .sg-card {
     justify-self: center;
+    width: 100%;
+    max-width: 460px;
   }
   .sg-steps {
+    width: 100%;
+    max-width: 100%;
     margin-top: 2rem;
   }
   .sg-title {
@@ -483,7 +493,7 @@ html[data-theme="dark"] .sg-demo {
 }
 @media (max-width: 480px) {
   .sg-step {
-    width: 66px;
+    width: 64px;
     font-size: 0.8rem;
   }
   .sg-steps::before,
