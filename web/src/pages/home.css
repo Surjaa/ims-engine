@@ -443,12 +443,15 @@ html[data-theme="dark"] .home-nav.is-pill {
   gap: 0.4rem;
   padding: 1rem;
   border-radius: 22px;
-  background: var(--h-card);
+  background: #ffffff;
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border: 1px solid var(--h-card-edge);
   box-shadow: 0 30px 60px -30px rgba(15, 23, 42, 0.45);
   animation: hmDrop 0.35s var(--h-ease) both;
+}
+html[data-theme="dark"] .home-mobile {
+  background: #0f172a;
 }
 .home-mobile a:not(.btn) {
   font-weight: 600;
