@@ -1,0 +1,8 @@
+# Copy to .dev.vars for local runs. Never commit .dev.vars.
+# Optional. Leave a line out to turn that feature off.
+SUPER_ADMIN_EMAIL=gurwinderanusurja@gmail.com
+GOOGLE_CLIENT_ID=
+GOOGLE_SHEET_ID=
+GOOGLE_SERVICE_ACCOUNT_JSON=
+RESEND_API_KEY=
+MAIL_FROM=

@@ -1,0 +1,39 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ims-engine",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-09-01",
+  // Built React app. Requests for /api/* go to the Worker; everything else is served from here.
+  "assets": {
+    "directory": "./web/dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"],
+  },
+  // Cloudflare D1 (SQLite). Create it once with: npx wrangler d1 create ims
+  // then paste the database_id it prints below.
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "ims",
+      "database_id": "68a6b828-2fb0-4482-ac79-6c30b760be1a",
+      "migrations_dir": "migrations",
+    },
+    {
+      "binding": "ims",
+      "database_name": "ims",
+      "database_id": "68a6b828-2fb0-4482-ac79-6c30b760be1a",
+      "remote": true,
+    },
+  ],
+  // Every 15 minutes: back up accounts that changed (only when AUTO_BACKUP is "true").
+  "triggers": {
+    "crons": ["*/15 * * * *"],
+  },
+  "vars": {
+    "AUTO_BACKUP": "false",
+  },
+  "observability": {
+    "enabled": true,
+  },
+}

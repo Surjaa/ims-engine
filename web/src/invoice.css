@@ -1,0 +1,81 @@
+/* Invoice dialog. Used by components/InvoiceDialog.tsx. */
+.inv-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1060;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(15, 23, 42, 0.55);
+  animation: invFade 0.2s ease;
+}
+.inv-dialog {
+  width: 100%;
+  max-width: 440px;
+  background: var(--surface, #fff);
+  color: var(--ink, #0f172a);
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.35);
+  animation: invRise 0.25s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.inv-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.inv-head h2 {
+  font-size: 1.2rem;
+  margin: 2px 0 0;
+  color: var(--heading, #0f172a);
+}
+.inv-eyebrow {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--primary, #6366f1);
+  letter-spacing: 0.04em;
+}
+.inv-sum {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--paper, #f8fafc);
+  margin-bottom: 14px;
+}
+.inv-sum span {
+  color: var(--mute, #64748b);
+  font-size: 0.9rem;
+}
+.inv-sum strong {
+  font-size: 1.2rem;
+  color: var(--heading, #0f172a);
+}
+.inv-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+@keyframes invFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes invRise {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

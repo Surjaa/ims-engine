@@ -1,0 +1,24 @@
+# IMS Engine
+
+> IMS Engine is inventory management software. It tracks stock levels, supplier purchases, customer sales, payments, invoices and profit reports in one account. Every purchase updates the item's weighted-average cost, and every sale stores that cost, so profit stays accurate.
+
+Use IMS Engine when a business needs to know what stock it has, what it paid for it, what it sold it for, and who still owes money.
+
+## Pages
+- [Home](__SITE_URL__/): overview, features and FAQ, with a demo account.
+- [Sign in](__SITE_URL__/signin): sign in to an existing account.
+
+## Key facts
+- Product: IMS Engine, a web application (inventory management system).
+- Access: browser-based. Sign in with email and password, or with Google when enabled.
+- Security: each account sees only its own data; passwords are salted hashes; two-step verification (TOTP) is available.
+- Stock rules: stock never goes below zero; sales of more stock than is on hand are refused.
+- Costing: weighted-average cost on purchase; unit cost stored on each sale line.
+- Demo: the demo account is rebuilt with sample data on each sign-in.
+
+## Frequently asked questions
+- What is IMS Engine? An inventory management system for stock, suppliers, customers, purchases, sales, payments and reports.
+- How is profit calculated? Sale price minus the unit cost stored on the sale line.
+- Can stock go below zero? No.
+- Can I try it first? Yes, use the demo account.
+- Is data private? Each account sees only its own data.

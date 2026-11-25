@@ -1,0 +1,128 @@
+/* ==========================================================
+   BLACK MODE (html[data-theme="dark"]) and the theme toggle.
+   Colours come from the variables in index.css, overridden here.
+   ========================================================== */
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #07080C;
+  --surface: #111218;
+  --paper: #15161D;
+  --ink: #E4E4E7;
+  --mute: #A1A1AA;
+  --line: #22242E;
+  --line-soft: #1F2129;
+  --charcoal: #040405;
+  --charcoal-deep: #000000;
+  --heading: #F4F4F5;
+  --primary: #7C3AED;
+  --primary-deep: #6D28D9;
+  --cyan: #22D3EE;
+  --cyan-deep: #06B6D4;
+  --sky: var(--primary);
+  --bs-primary: #7C3AED;
+  --bs-link-color: #A78BFA;
+  --bs-link-hover-color: #C4B5FD;
+}
+
+html[data-theme="dark"] body {
+  background: var(--bg);
+  color: var(--ink);
+}
+
+html[data-theme="dark"] .sidebar {
+  background: #040405;
+  border-right: 1px solid #1F2129;
+  box-shadow: none;
+}
+html[data-theme="dark"] .nav-link-item {
+  color: #D4D4D8;
+}
+html[data-theme="dark"] .nav-link-item.active {
+  background: linear-gradient(90deg, #7C3AED, #2563EB);
+  box-shadow: inset 3px 0 0 #C4B5FD, 0 10px 24px -12px rgba(124, 58, 237, 0.9);
+}
+
+html[data-theme="dark"] .topbar {
+  background: rgba(11, 12, 16, 0.92);
+  border-bottom-color: #1F2129;
+}
+html[data-theme="dark"] .topbar-company {
+  background: #1E1B4B;
+  color: #DDD6FE;
+}
+
+html[data-theme="dark"] .btn-primary,
+html[data-theme="dark"] .btn-primary.btn {
+  background: linear-gradient(90deg, #7C3AED, #2563EB);
+  border-color: transparent;
+  box-shadow: 0 12px 26px -14px rgba(124, 58, 237, 0.9);
+}
+html[data-theme="dark"] .btn-primary:hover {
+  background: linear-gradient(90deg, #8B5CF6, #3B82F6);
+  color: #fff;
+}
+
+html[data-theme="dark"] input:focus,
+html[data-theme="dark"] select:focus,
+html[data-theme="dark"] textarea:focus {
+  border-color: #8B5CF6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.25);
+}
+
+html[data-theme="dark"] .auth-shell,
+html[data-theme="dark"] .auth-panel {
+  background: var(--bg);
+}
+
+html[data-theme="dark"] .modal-dialog {
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+}
+
+/* Toggle button in the top bar */
+.theme-toggle {
+  width: 40px;
+  height: 40px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  transition: transform 0.15s var(--ease), background 0.2s;
+}
+.theme-toggle:hover {
+  transform: translateY(-1px);
+}
+.theme-toggle:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 3px;
+}
+.theme-toggle svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Number fields (quantity steppers) and other bare inputs */
+html[data-theme="dark"] input[type="number"],
+html[data-theme="dark"] input[type="text"],
+html[data-theme="dark"] input[type="search"],
+html[data-theme="dark"] input[type="date"],
+html[data-theme="dark"] input[type="email"],
+html[data-theme="dark"] input[type="password"],
+html[data-theme="dark"] input[type="tel"] {
+  background-color: var(--paper);
+  color: var(--ink);
+  border-color: var(--line);
+}
+html[data-theme="dark"] input::placeholder {
+  color: var(--mute);
+}
+
+/* SKU badges and small tinted chips keep their text readable on black */
+html[data-theme="dark"] .sku {
+  background: #1E1B4B;
+  color: #DDD6FE;
+  border-color: #312E81;
+}
