@@ -51,7 +51,7 @@ export default function Navbar({
       <header className={`home-nav ${pill ? "is-pill" : ""}`}>
         <Link to="/" className="home-brand" aria-label={`${SITE_NAME} home`}>
           <span className="home-logo" aria-hidden="true">
-            <BrandMark size={34} />
+            <BrandMark size={38} />
           </span>
           <span className="home-brand-text">{SITE_NAME}</span>
         </Link>

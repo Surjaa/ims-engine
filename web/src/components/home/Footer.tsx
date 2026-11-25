@@ -75,7 +75,7 @@ export default function Footer({
           <div className="home-footer-top">
             <div className="home-footer-brand reveal-left">
               <span className="home-logo" aria-hidden="true">
-                <BrandMark size={34} />
+                <BrandMark size={38} />
               </span>
               <p className="home-footer-word">{SITE_NAME}</p>
               <p className="home-footer-tag">

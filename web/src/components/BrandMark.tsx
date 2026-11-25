@@ -1,5 +1,5 @@
-// IMS Engine logo: three stacked stock boxes on a blue-to-cyan tile, with an amber dot for profit.
-// Keep in sync with web/public/logo.svg (used for the favicon and link previews).
+// IMS Engine logo: a bold capital "I" (for Inventory Management System) on a blue-to-cyan tile,
+// with an amber dot. Keep in sync with web/public/logo.svg (favicon and link previews).
 export function BrandMark({ size = 34 }: { size?: number }) {
   return (
     <svg
@@ -17,26 +17,10 @@ export function BrandMark({ size = 34 }: { size?: number }) {
         </linearGradient>
       </defs>
       <rect width="64" height="64" rx="18" fill="url(#ims-brand-g)" />
-      <rect x="23.5" y="16" width="17" height="12" rx="3" fill="#ffffff" />
-      <rect
-        x="12"
-        y="34"
-        width="17"
-        height="12"
-        rx="3"
-        fill="#ffffff"
-        fillOpacity="0.92"
-      />
-      <rect
-        x="35"
-        y="34"
-        width="17"
-        height="12"
-        rx="3"
-        fill="#ffffff"
-        fillOpacity="0.92"
-      />
-      <circle cx="49" cy="14" r="5" fill="#F59E0B" />
+      <rect x="21" y="13" width="22" height="8" rx="4" fill="#ffffff" />
+      <rect x="28" y="19" width="8" height="26" rx="2" fill="#ffffff" />
+      <rect x="21" y="43" width="22" height="8" rx="4" fill="#ffffff" />
+      <circle cx="49" cy="14" r="4.5" fill="#F59E0B" />
     </svg>
   );
 }
