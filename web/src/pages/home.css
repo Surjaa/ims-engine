@@ -1534,6 +1534,9 @@ html[data-theme="dark"] .home-kicker {
   .home-mobile {
     display: flex;
   }
+  .home-signin {
+    display: none;
+  }
   .home-nav.is-pill {
     width: calc(100% - 24px);
     min-width: 0;
