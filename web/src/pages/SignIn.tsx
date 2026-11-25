@@ -10,39 +10,9 @@ import { request } from "../api";
 import { useAuth, type AuthUser } from "../auth";
 import { applyTheme, getTheme, type ThemeMode } from "../themeMode";
 import { SITE_NAME } from "../seoContent";
-import { Icon } from "../components/home/Icons";
 import "./auth-about.css";
 
 type AuthResult = AuthUser | { twoFactor: true };
-
-const ABOUT = [
-  {
-    icon: "box",
-    title: "Stock levels",
-    text: "Quantity for every item, with reorder alerts. A sale that would take stock below zero is refused.",
-  },
-  {
-    icon: "cart",
-    title: "Purchases",
-    text: "Each purchase adds stock at its price and updates the item’s weighted-average cost.",
-  },
-  {
-    icon: "receipt",
-    title: "Sales and invoices",
-    text: "Each sale records the cost it was sold at, and invoices can be printed for customers.",
-  },
-  {
-    icon: "wallet",
-    title: "Payments and reports",
-    text: "Log receipts and supplier payments. Monthly reports show sales, purchases and profit.",
-  },
-];
-
-const WHY = [
-  "Profit you can trust: an old sale keeps the cost it was recorded at.",
-  "No negative stock: the database enforces the rule, not only the screen.",
-  "Your data stays yours: each account sees only its own records.",
-];
 
 declare global {
   interface Window {
@@ -160,42 +130,28 @@ export default function SignIn() {
             {SITE_NAME}
           </Link>
           <div className="auth-about mt-4">
-            <p className="auth-about-kicker">Inventory management software</p>
-            <h2>What IMS Engine does</h2>
+            <span className="auth-about-pill">Inventory control</span>
+            <h2>
+              Know what is in stock.{" "}
+              <span className="auth-about-grad">
+                Know what each sale really earns.
+              </span>
+            </h2>
             <p className="auth-about-lead">
-              IMS Engine keeps stock levels, suppliers, customers, purchases,
-              sales, payments and profit reports in one account.
+              IMS Engine tracks stock, purchases, sales and payments in one
+              account, and keeps profit accurate.
             </p>
-
-            <ul className="auth-about-list">
-              {ABOUT.map((a, i) => (
+            <ol className="auth-about-steps" aria-label="How stock flows">
+              {["Purchase", "Stock", "Sale", "Profit"].map((step, i) => (
                 <li
-                  className="auth-about-item"
-                  style={{ "--d": `${0.1 + i * 0.08}s` } as CSSProperties}
-                  key={a.title}
+                  key={step}
+                  style={{ "--d": `${0.15 + i * 0.12}s` } as CSSProperties}
                 >
-                  <span className="auth-about-ico" aria-hidden="true">
-                    <Icon name={a.icon} />
-                  </span>
-                  <span>
-                    <b>{a.title}</b>
-                    {a.text}
-                  </span>
+                  <span className="auth-about-dot">{i + 1}</span>
+                  {step}
                 </li>
               ))}
-            </ul>
-
-            <h3>Why it matters</h3>
-            <ul className="auth-about-why">
-              {WHY.map((w, i) => (
-                <li
-                  style={{ "--d": `${0.5 + i * 0.08}s` } as CSSProperties}
-                  key={w}
-                >
-                  {w}
-                </li>
-              ))}
-            </ul>
+            </ol>
           </div>
           <Link to="/" className="auth-back">
             ← Back to home
