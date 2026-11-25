@@ -1,18 +1,20 @@
-import {
-  useEffect,
-  useRef,
-  useState,
-  type CSSProperties,
-  type FormEvent,
-} from "react";
-import { Link } from "react-router-dom";
-import { request } from "../api";
-import { useAuth, type AuthUser } from "../auth";
-import { applyTheme, getTheme, type ThemeMode } from "../themeMode";
-import { SITE_NAME } from "../seoContent";
-import "./auth-about.css";
+import { useEffect, useRef, useState, type CSSProperties, type FormEvent } from 'react';
+import { Link } from 'react-router-dom';
+import { request } from '../api';
+import { useAuth, type AuthUser } from '../auth';
+import { applyTheme, getTheme, type ThemeMode } from '../themeMode';
+import { SITE_NAME } from '../seoContent';
+import './sign-in.css';
 
 type AuthResult = AuthUser | { twoFactor: true };
+
+// The four stages a stock item moves through. "done" and "active" are shown as progress.
+const STEPS: { label: string; state: 'done' | 'active' | 'pending' }[] = [
+  { label: 'Purchase', state: 'done' },
+  { label: 'Stock', state: 'done' },
+  { label: 'Sale', state: 'active' },
+  { label: 'Profit', state: 'pending' },
+];
 
 declare global {
   interface Window {
@@ -22,10 +24,10 @@ declare global {
 
 export default function SignIn() {
   const { setUser } = useAuth();
-  const [step, setStep] = useState<"form" | "2fa">("form");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [code, setCode] = useState("");
+  const [step, setStep] = useState<'form' | '2fa'>('form');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [code, setCode] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [clientId, setClientId] = useState<string | null>(null);
@@ -37,7 +39,7 @@ export default function SignIn() {
   }, []);
 
   useEffect(() => {
-    request<{ clientId: string | null }>("/auth/google/config")
+    request<{ clientId: string | null }>('/auth/google/config')
       .then((r) => setClientId(r.clientId))
       .catch(() => setClientId(null));
   }, []);
@@ -48,8 +50,8 @@ export default function SignIn() {
     setError(null);
     try {
       const res = await call();
-      if ("id" in res) setUser(res);
-      else setStep("2fa");
+      if ('id' in res) setUser(res);
+      else setStep('2fa');
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -58,30 +60,26 @@ export default function SignIn() {
   }
 
   useEffect(() => {
-    if (!clientId || step !== "form") return;
+    if (!clientId || step !== 'form') return;
     const render = () => {
       if (!window.google || !googleHost.current) return;
       window.google.accounts.id.initialize({
         client_id: clientId,
         callback: (r: { credential: string }) =>
-          run(() =>
-            request<AuthResult>("/auth/google", "POST", {
-              credential: r.credential,
-            }),
-          ),
+          run(() => request<AuthResult>('/auth/google', 'POST', { credential: r.credential })),
       });
-      googleHost.current.innerHTML = "";
+      googleHost.current.innerHTML = '';
       window.google.accounts.id.renderButton(googleHost.current, {
-        theme: theme === "dark" ? "filled_black" : "outline",
-        size: "large",
-        shape: "pill",
-        text: "continue_with",
+        theme: theme === 'dark' ? 'filled_black' : 'outline',
+        size: 'large',
+        shape: 'pill',
+        text: 'continue_with',
         width: 340,
       });
     };
     if (window.google) return render();
-    const s = document.createElement("script");
-    s.src = "https://accounts.google.com/gsi/client";
+    const s = document.createElement('script');
+    s.src = 'https://accounts.google.com/gsi/client';
     s.async = true;
     s.onload = render;
     document.head.appendChild(s);
@@ -89,94 +87,84 @@ export default function SignIn() {
 
   function submit(e: FormEvent) {
     e.preventDefault();
-    if (step === "2fa")
-      return run(() =>
-        request<AuthResult>("/auth/2fa/verify", "POST", { code }),
-      );
-    return run(() =>
-      request<AuthResult>("/auth/signin", "POST", { email, password }),
-    );
+    if (step === '2fa') return run(() => request<AuthResult>('/auth/2fa/verify', 'POST', { code }));
+    return run(() => request<AuthResult>('/auth/signin', 'POST', { email, password }));
   }
 
   function toggleTheme() {
-    const next: ThemeMode = theme === "dark" ? "light" : "dark";
+    const next: ThemeMode = theme === 'dark' ? 'light' : 'dark';
     applyTheme(next);
     setTheme(next);
   }
 
   return (
-    <div className="auth-shell row g-0">
-      <section className="col-lg-6 auth-brand-panel">
-        <div className="auth-orb orb-teal" aria-hidden="true" />
-        <div className="auth-orb orb-amber" aria-hidden="true" />
-        <div className="auth-brand-inner">
-          <Link
-            to="/"
-            className="d-inline-flex align-items-center gap-2 fw-bold text-white text-decoration-none"
-          >
-            <span className="af-icon af-teal" aria-hidden="true">
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-              >
+    <div className="sg-page">
+      <span className="sg-blob b1" aria-hidden="true" />
+      <span className="sg-blob b2" aria-hidden="true" />
+      <span className="sg-blob b3" aria-hidden="true" />
+
+      <div className="sg-wrap">
+        <section className="sg-intro">
+          <Link to="/" className="sg-brand" aria-label={`${SITE_NAME} home`}>
+            <span className="sg-logo" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                 <path d="M3 7l9-4 9 4-9 4-9-4zm0 5l9 4 9-4M3 17l9 4 9-4" />
               </svg>
             </span>
-            {SITE_NAME}
+            <span>
+              <span className="sg-brand-name">{SITE_NAME}</span>
+              <span className="sg-brand-sub">Inventory Management Software</span>
+            </span>
           </Link>
-          <div className="auth-about mt-4">
-            <span className="auth-about-pill">Inventory control</span>
-            <h2>
-              Know what is in stock.{" "}
-              <span className="auth-about-grad">
-                Know what each sale really earns.
-              </span>
-            </h2>
-            <p className="auth-about-lead">
-              IMS Engine tracks stock, purchases, sales and payments in one
-              account, and keeps profit accurate.
-            </p>
-            <ol className="auth-about-steps" aria-label="How stock flows">
-              {["Purchase", "Stock", "Sale", "Profit"].map((step, i) => (
-                <li
-                  key={step}
-                  style={{ "--d": `${0.15 + i * 0.12}s` } as CSSProperties}
-                >
-                  <span className="auth-about-dot">{i + 1}</span>
-                  {step}
-                </li>
-              ))}
-            </ol>
-          </div>
-          <Link to="/" className="auth-back">
-            ← Back to home
-          </Link>
-        </div>
-      </section>
 
-      <section className="col-lg-6 auth-panel d-flex align-items-center justify-content-center px-3 py-5 px-md-5">
-        <div className="auth-form auth-glass w-100">
-          <div className="d-flex justify-content-between align-items-center mb-4">
-            <h1 className="auth-title">
-              {step === "2fa" ? "Enter your code" : "Sign in"}
-            </h1>
+          <span className="sg-pill">Inventory control</span>
+
+          <h2 className="sg-title">
+            Know what is in stock.
+            <span className="sg-grad">Know what each sale really earns.</span>
+          </h2>
+
+          <p className="sg-lead">
+            IMS Engine tracks stock, purchases, sales and payments in one account, and keeps profit accurate.
+          </p>
+
+          <ol className="sg-steps" aria-label="How stock moves through IMS Engine">
+            {STEPS.map((s, i) => (
+              <li
+                key={s.label}
+                className={`sg-step ${s.state}`}
+                style={{ '--d': `${0.2 + i * 0.12}s` } as CSSProperties}
+                aria-current={s.state === 'active' ? 'step' : undefined}
+              >
+                <span className="sg-dot">{s.state === 'done' ? '✓' : i + 1}</span>
+                {s.label}
+              </li>
+            ))}
+          </ol>
+
+          <Link to="/" className="sg-back">← Back to home</Link>
+        </section>
+
+        <section className="sg-card" aria-labelledby="sg-heading">
+          <div className="sg-head">
+            <div>
+              <h1 id="sg-heading">{step === '2fa' ? 'Enter your code' : 'Welcome back'}</h1>
+              <p className="sg-sub">
+                {step === '2fa'
+                  ? 'Enter the 6-digit code from your authenticator app.'
+                  : clientId
+                    ? 'Sign in with your email and password, or continue with Google.'
+                    : 'Sign in with your email and password.'}
+              </p>
+            </div>
             <button
               type="button"
-              className="theme-toggle"
+              className="sg-theme"
               onClick={toggleTheme}
-              aria-label={
-                theme === "dark"
-                  ? "Switch to light theme"
-                  : "Switch to black theme"
-              }
-              title={theme === "dark" ? "Light theme" : "Black theme"}
+              aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to black theme'}
+              title={theme === 'dark' ? 'Light theme' : 'Black theme'}
             >
-              {theme === "dark" ? "☀" : "☾"}
+              {theme === 'dark' ? '☀' : '☾'}
             </button>
           </div>
 
@@ -186,62 +174,52 @@ export default function SignIn() {
             </div>
           )}
 
-          {step === "form" && clientId && (
+          {step === 'form' && clientId && (
             <>
-              <div ref={googleHost} className="google-signin-host mb-3" />
-              <div className="auth-divider mb-3">or</div>
+              <div ref={googleHost} className="sg-google-host" />
+              <div className="sg-or">or</div>
             </>
           )}
 
           <form onSubmit={submit} noValidate>
-            {step === "2fa" ? (
-              <div className="mb-4">
-                <label className="form-label fw-semibold" htmlFor="auth-code">
-                  Authentication code
-                </label>
+            {step === '2fa' ? (
+              <div className="sg-field">
+                <label htmlFor="auth-code">Authentication code</label>
                 <input
                   id="auth-code"
-                  className="form-control form-control-lg text-center fs-4"
+                  className="sg-input text-center"
                   inputMode="numeric"
                   autoComplete="one-time-code"
                   maxLength={6}
                   value={code}
-                  onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
+                  onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
                   required
                   autoFocus
                 />
               </div>
             ) : (
               <>
-                <div className="mb-3">
-                  <label
-                    className="form-label fw-semibold"
-                    htmlFor="auth-email"
-                  >
-                    Email
-                  </label>
+                <div className="sg-field">
+                  <label htmlFor="auth-email">Email</label>
                   <input
                     id="auth-email"
                     type="email"
-                    className="form-control form-control-lg"
+                    className="sg-input"
                     autoComplete="email"
+                    placeholder="you@company.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
                   />
                 </div>
-                <div className="mb-4">
-                  <label
-                    className="form-label fw-semibold"
-                    htmlFor="auth-password"
-                  >
-                    Password
-                  </label>
+                <div className="sg-field">
+                  <label htmlFor="auth-password">Password</label>
                   <input
                     id="auth-password"
                     type="password"
-                    className="form-control form-control-lg"
+                    className="sg-input"
                     autoComplete="current-password"
+                    placeholder="Enter your password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
@@ -249,36 +227,33 @@ export default function SignIn() {
                 </div>
               </>
             )}
-            <button
-              type="submit"
-              className="btn btn-primary btn-lg w-100"
-              disabled={busy}
-            >
-              {busy ? "Please wait…" : step === "2fa" ? "Verify" : "Sign in"}
+            <button type="submit" className="sg-submit" disabled={busy}>
+              {busy ? 'Please wait…' : step === '2fa' ? 'Verify' : 'Sign in'}
             </button>
           </form>
 
-          {step === "form" && (
-            <button
-              type="button"
-              className="btn btn-outline-secondary btn-lg w-100 mt-3"
-              disabled={busy}
-              onClick={() =>
-                run(() => request<AuthResult>("/auth/demo", "POST"))
-              }
-            >
-              Explore with demo data
-            </button>
+          {step === 'form' && (
+            <>
+              <button
+                type="button"
+                className="sg-demo"
+                disabled={busy}
+                onClick={() => run(() => request<AuthResult>('/auth/demo', 'POST'))}
+              >
+                Explore with demo data
+              </button>
+              <p className="sg-note">The demo account has sample items, purchases and sales. Your own account is never changed.</p>
+            </>
           )}
 
-          {step === "2fa" && (
-            <p className="auth-switch">
+          {step === '2fa' && (
+            <p className="sg-note">
               <button
                 type="button"
                 className="btn btn-link p-0"
                 onClick={() => {
-                  setStep("form");
-                  setCode("");
+                  setStep('form');
+                  setCode('');
                   setError(null);
                 }}
               >
@@ -286,8 +261,8 @@ export default function SignIn() {
               </button>
             </p>
           )}
-        </div>
-      </section>
+        </section>
+      </div>
     </div>
   );
 }
