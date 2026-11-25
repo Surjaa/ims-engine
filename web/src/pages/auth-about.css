@@ -116,3 +116,61 @@
 
 /* Give the back link room below the "Why it matters" list. */
 .auth-brand-inner .auth-back { display: inline-block; margin-top: 1.6rem; }
+
+/* Left panel: short pill, gradient headline line and a four-step flow (FMS-style). */
+.auth-about-pill {
+  display: inline-block;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  background: rgba(129, 140, 248, 0.18);
+  color: #c7d2fe;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 1.1rem;
+  animation: aboutIn 0.6s ease both;
+}
+.auth-about-grad {
+  background: linear-gradient(90deg, #a5b4fc, #22d3ee);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.auth-about-steps {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1.8rem 0 0;
+  padding: 0;
+}
+.auth-about-steps li {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: #cbd5e1;
+  font-size: 0.85rem;
+  font-weight: 600;
+  animation: aboutIn 0.5s ease var(--d, 0s) both;
+}
+.auth-about-steps li + li::before {
+  content: "";
+  width: 28px;
+  height: 2px;
+  margin-right: 0.2rem;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #6366f1, #22d3ee);
+}
+.auth-about-dot {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #4f46e5;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 800;
+}

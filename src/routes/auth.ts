@@ -14,7 +14,6 @@ import {
 import { loadActor, permissionView, superEmailOf } from '../lib/access';
 import { hashPassword, newTotpSecret, sha256Hex, totpMatches, totpUri, verifyPassword } from '../lib/crypto';
 import { verifyGoogleIdToken } from '../lib/google';
-import { baseCatalogStatements } from '../base';
 import { resetDemoData, seedDemo } from '../seed';
 
 const DEMO_EMAIL = 'demo@ims.local';
@@ -68,7 +67,7 @@ async function startSession(c: any, uid: number, twoFactor: boolean) {
   return c.json(await accountOf(c, uid));
 }
 
-// Creates a company owner with the base catalogue and default settings. Rolls back the user on failure.
+// Creates a company owner with default settings and an empty catalogue. Rolls back the user on failure.
 async function createOwner(db: D1Database, email: string, name: string, company: string, passwordHash: string | null) {
   const row = await first<{ id: number }>(
     db,
@@ -78,7 +77,6 @@ async function createOwner(db: D1Database, email: string, name: string, company:
   const uid = row!.id;
   try {
     await atomic(db, [
-      ...baseCatalogStatements(db, uid),
       db
         .prepare("INSERT INTO settings (user_id, key, value) VALUES (?, 'company_name', ?), (?, 'currency', '₹'), (?, 'currency_code', 'INR')")
         .bind(uid, company, uid, uid),

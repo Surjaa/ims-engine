@@ -4,38 +4,17 @@ import { request } from '../api';
 import { useAuth, type AuthUser } from '../auth';
 import { applyTheme, getTheme, type ThemeMode } from '../themeMode';
 import { SITE_NAME } from '../seoContent';
-import { Icon } from '../components/home/Icons';
-import './auth-about.css';
+import { BrandMark } from '../components/BrandMark';
+import './sign-in.css';
 
 type AuthResult = AuthUser | { twoFactor: true };
 
-const ABOUT = [
-  {
-    icon: 'box',
-    title: 'Stock levels',
-    text: 'Quantity for every item, with reorder alerts. A sale that would take stock below zero is refused.',
-  },
-  {
-    icon: 'cart',
-    title: 'Purchases',
-    text: 'Each purchase adds stock at its price and updates the item’s weighted-average cost.',
-  },
-  {
-    icon: 'receipt',
-    title: 'Sales and invoices',
-    text: 'Each sale records the cost it was sold at, and invoices can be printed for customers.',
-  },
-  {
-    icon: 'wallet',
-    title: 'Payments and reports',
-    text: 'Log receipts and supplier payments. Monthly reports show sales, purchases and profit.',
-  },
-];
-
-const WHY = [
-  'Profit you can trust: an old sale keeps the cost it was recorded at.',
-  'No negative stock: the database enforces the rule, not only the screen.',
-  'Your data stays yours: each account sees only its own records.',
+// The four stages a stock item moves through. "done" and "active" are shown as progress.
+const STEPS: { label: string; state: 'done' | 'active' | 'pending' }[] = [
+  { label: 'Purchase', state: 'done' },
+  { label: 'Stock', state: 'done' },
+  { label: 'Sale', state: 'active' },
+  { label: 'Profit', state: 'pending' },
 ];
 
 declare global {
@@ -120,60 +99,66 @@ export default function SignIn() {
   }
 
   return (
-    <div className="auth-shell row g-0">
-      <section className="col-lg-6 auth-brand-panel">
-        <div className="auth-orb orb-teal" aria-hidden="true" />
-        <div className="auth-orb orb-amber" aria-hidden="true" />
-        <div className="auth-brand-inner">
-          <Link to="/" className="d-inline-flex align-items-center gap-2 fw-bold text-white text-decoration-none">
-            <span className="af-icon af-teal" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                <path d="M3 7l9-4 9 4-9 4-9-4zm0 5l9 4 9-4M3 17l9 4 9-4" />
-              </svg>
+    <div className="sg-page">
+      <span className="sg-blob b1" aria-hidden="true" />
+      <span className="sg-blob b2" aria-hidden="true" />
+      <span className="sg-blob b3" aria-hidden="true" />
+
+      <div className="sg-wrap">
+        <section className="sg-intro">
+          <Link to="/" className="sg-brand" aria-label={`${SITE_NAME} home`}>
+            <span className="sg-logo" aria-hidden="true">
+              <BrandMark size={56} />
             </span>
-            {SITE_NAME}
+            <span>
+              <span className="sg-brand-name">{SITE_NAME}</span>
+              <span className="sg-brand-sub">Inventory Management Software</span>
+            </span>
           </Link>
-          <div className="auth-about mt-4">
-            <p className="auth-about-kicker">Inventory management software</p>
-            <h2>What IMS Engine does</h2>
-            <p className="auth-about-lead">
-              IMS Engine keeps stock levels, suppliers, customers, purchases, sales, payments and profit reports in one account.
-            </p>
 
-            <ul className="auth-about-list">
-              {ABOUT.map((a, i) => (
-                <li className="auth-about-item" style={{ '--d': `${0.1 + i * 0.08}s` } as CSSProperties} key={a.title}>
-                  <span className="auth-about-ico" aria-hidden="true">
-                    <Icon name={a.icon} />
-                  </span>
-                  <span>
-                    <b>{a.title}</b>
-                    {a.text}
-                  </span>
-                </li>
-              ))}
-            </ul>
+          <span className="sg-pill">Inventory control</span>
 
-            <h3>Why it matters</h3>
-            <ul className="auth-about-why">
-              {WHY.map((w, i) => (
-                <li style={{ '--d': `${0.5 + i * 0.08}s` } as CSSProperties} key={w}>
-                  {w}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <Link to="/" className="auth-back">← Back to home</Link>
-        </div>
-      </section>
+          <h2 className="sg-title">
+            Know what is in stock.
+            <span className="sg-grad">Know what each sale really earns.</span>
+          </h2>
 
-      <section className="col-lg-6 auth-panel d-flex align-items-center justify-content-center px-3 py-5 px-md-5">
-        <div className="auth-form auth-glass w-100">
-          <div className="d-flex justify-content-between align-items-center mb-4">
-            <h1 className="auth-title">{step === '2fa' ? 'Enter your code' : 'Sign in'}</h1>
+          <p className="sg-lead">
+            IMS Engine tracks stock, purchases, sales and payments in one account, and keeps profit accurate.
+          </p>
+
+          <ol className="sg-steps" aria-label="How stock moves through IMS Engine">
+            {STEPS.map((s, i) => (
+              <li
+                key={s.label}
+                className={`sg-step ${s.state}`}
+                style={{ '--d': `${0.2 + i * 0.12}s` } as CSSProperties}
+                aria-current={s.state === 'active' ? 'step' : undefined}
+              >
+                <span className="sg-dot">{s.state === 'done' ? '✓' : i + 1}</span>
+                {s.label}
+              </li>
+            ))}
+          </ol>
+
+          <Link to="/" className="sg-back">← Back to home</Link>
+        </section>
+
+        <section className="sg-card" aria-labelledby="sg-heading">
+          <div className="sg-head">
+            <div>
+              <h1 id="sg-heading">{step === '2fa' ? 'Enter your code' : 'Welcome back'}</h1>
+              <p className="sg-sub">
+                {step === '2fa'
+                  ? 'Enter the 6-digit code from your authenticator app.'
+                  : clientId
+                    ? 'Sign in with your email and password, or continue with Google.'
+                    : 'Sign in with your email and password.'}
+              </p>
+            </div>
             <button
               type="button"
-              className="theme-toggle"
+              className="sg-theme"
               onClick={toggleTheme}
               aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to black theme'}
               title={theme === 'dark' ? 'Light theme' : 'Black theme'}
@@ -190,18 +175,18 @@ export default function SignIn() {
 
           {step === 'form' && clientId && (
             <>
-              <div ref={googleHost} className="google-signin-host mb-3" />
-              <div className="auth-divider mb-3">or</div>
+              <div ref={googleHost} className="sg-google-host" />
+              <div className="sg-or">or</div>
             </>
           )}
 
           <form onSubmit={submit} noValidate>
             {step === '2fa' ? (
-              <div className="mb-4">
-                <label className="form-label fw-semibold" htmlFor="auth-code">Authentication code</label>
+              <div className="sg-field">
+                <label htmlFor="auth-code">Authentication code</label>
                 <input
                   id="auth-code"
-                  className="form-control form-control-lg text-center fs-4"
+                  className="sg-input text-center"
                   inputMode="numeric"
                   autoComplete="one-time-code"
                   maxLength={6}
@@ -213,41 +198,70 @@ export default function SignIn() {
               </div>
             ) : (
               <>
-                <div className="mb-3">
-                  <label className="form-label fw-semibold" htmlFor="auth-email">Email</label>
-                  <input id="auth-email" type="email" className="form-control form-control-lg" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                <div className="sg-field">
+                  <label htmlFor="auth-email">Email</label>
+                  <input
+                    id="auth-email"
+                    type="email"
+                    className="sg-input"
+                    autoComplete="email"
+                    placeholder="you@company.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
                 </div>
-                <div className="mb-4">
-                  <label className="form-label fw-semibold" htmlFor="auth-password">Password</label>
-                  <input id="auth-password" type="password" className="form-control form-control-lg" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                <div className="sg-field">
+                  <label htmlFor="auth-password">Password</label>
+                  <input
+                    id="auth-password"
+                    type="password"
+                    className="sg-input"
+                    autoComplete="current-password"
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
                 </div>
               </>
             )}
-            <button type="submit" className="btn btn-primary btn-lg w-100" disabled={busy}>
+            <button type="submit" className="sg-submit" disabled={busy}>
               {busy ? 'Please wait…' : step === '2fa' ? 'Verify' : 'Sign in'}
             </button>
           </form>
 
           {step === 'form' && (
-            <button
-              type="button"
-              className="btn btn-outline-secondary btn-lg w-100 mt-3"
-              disabled={busy}
-              onClick={() => run(() => request<AuthResult>('/auth/demo', 'POST'))}
-            >
-              Explore with demo data
-            </button>
+            <>
+              <button
+                type="button"
+                className="sg-demo"
+                disabled={busy}
+                onClick={() => run(() => request<AuthResult>('/auth/demo', 'POST'))}
+              >
+                Explore with demo data
+              </button>
+              <p className="sg-note">The demo account has sample items, purchases and sales. Your own account is never changed.</p>
+            </>
           )}
 
           {step === '2fa' && (
-            <p className="auth-switch">
-              <button type="button" className="btn btn-link p-0" onClick={() => { setStep('form'); setCode(''); setError(null); }}>
+            <p className="sg-note">
+              <button
+                type="button"
+                className="btn btn-link p-0"
+                onClick={() => {
+                  setStep('form');
+                  setCode('');
+                  setError(null);
+                }}
+              >
                 Back to sign in
               </button>
             </p>
           )}
-        </div>
-      </section>
+        </section>
+      </div>
     </div>
   );
 }
