@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Icon } from "./Icons";
+import { BrandMark } from "../BrandMark";
 import { SITE_NAME } from "../../seoContent";
 
 const LINKS: [string, string][] = [
@@ -51,7 +51,7 @@ export default function Navbar({
       <header className={`home-nav ${pill ? "is-pill" : ""}`}>
         <Link to="/" className="home-brand" aria-label={`${SITE_NAME} home`}>
           <span className="home-logo" aria-hidden="true">
-            <Icon name="box" />
+            <BrandMark size={34} />
           </span>
           <span className="home-brand-text">{SITE_NAME}</span>
         </Link>

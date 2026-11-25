@@ -1,6 +1,7 @@
 import { useEffect, useState, type CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { Icon } from "./Icons";
+import { BrandMark } from "../BrandMark";
 import { SITE_NAME } from "../../seoContent";
 
 type Col = {
@@ -74,7 +75,7 @@ export default function Footer({
           <div className="home-footer-top">
             <div className="home-footer-brand reveal-left">
               <span className="home-logo" aria-hidden="true">
-                <Icon name="box" />
+                <BrandMark size={34} />
               </span>
               <p className="home-footer-word">{SITE_NAME}</p>
               <p className="home-footer-tag">

@@ -125,8 +125,7 @@ html[data-theme="dark"] .sg-blob {
   display: grid;
   place-items: center;
   color: #fff;
-  background: linear-gradient(135deg, #3b82f6, #06b6d4);
-  box-shadow: 0 14px 28px -12px rgba(37, 99, 235, 0.7);
+  filter: drop-shadow(0 14px 18px rgba(37, 99, 235, 0.45));
   transition: transform 0.5s var(--sg-ease);
 }
 .sg-brand:hover .sg-logo {

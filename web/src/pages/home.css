@@ -315,9 +315,11 @@ html[data-theme="dark"] .home-nav.is-pill {
   display: grid;
   place-items: center;
   color: #fff;
-  background: linear-gradient(135deg, var(--h-primary), var(--h-cyan));
-  box-shadow: 0 10px 20px -10px rgba(99, 102, 241, 0.8);
   transition: transform 0.5s var(--h-ease);
+}
+.home-logo .brand-mark {
+  display: block;
+  filter: drop-shadow(0 10px 14px rgba(79, 70, 229, 0.45));
 }
 .home-brand:hover .home-logo {
   transform: rotate(-12deg) scale(1.08);
